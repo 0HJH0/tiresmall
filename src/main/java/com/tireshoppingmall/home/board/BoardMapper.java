@@ -2,17 +2,42 @@ package com.tireshoppingmall.home.board;
 
 import java.util.List;
 
+import com.tireshoppingmall.home.auth.AuthUserDTO;
+
 public interface BoardMapper {
-	int getAskCount(AskSelector askSearch);
-
-	List<AskDTO> getAskAll(AskSelector askSearch);
-
-	AskDTO getAskOne(AskDTO a);
-	AskReplyDTO getAskReply(AskDTO a);
-
-	int createAsk(AskDTO a);
-
-	int updateAsk(AskDTO a);
+	int getFaqCount(BoardFaqSelector forIroiro);
 	
-	int deleteAsk(AskDTO a);
+	List<BoardFaqDTO> readFaq(BoardFaqSelector forIroiro);
+	
+	
+	
+	int getQnaCount(AuthUserDTO forU_id);
+
+	List<BoardQnaDTO> readQna(AuthUserDTO au);
+
+	BoardQnaDTO readdetailQna(BoardQnaDTO bq);
+	BoardQnaReplyDTO readQnaReply(BoardQnaDTO bq);
+
+	int createQna(BoardQnaDTO bq);
+
+	int updateQna(BoardQnaDTO bq);
+	
+	int deleteQna(BoardQnaDTO bq);
+	
+	int getNoticeCount(BoardNoticeDTO bn);
+	
+	List<BoardNoticeDTO> readNotice(BoardNoticeDTO bn);
+	
+	BoardNoticeDTO readdetailNotice(BoardNoticeDTO bn);
+	
+	List<BoardEventDTO> readEventModal(BoardEventDTO be);
+
+	int getEventCount(BoardEventDTO be);
+	
+	List<BoardEventDTO> readEvent(BoardEventDTO be);
+	
+	BoardEventDTO readdetailEvent(BoardEventDTO be);
+	/*
+	List<String> readDetailimgs(BoardEventDTO beDTO);
+	 */
 }

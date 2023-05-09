@@ -74,5 +74,3 @@ drop table tire_item;
 
 select * from tire_item;
 
-select * from tire_group, (select ti_tg_id from tire_item where ti_pricefac < 200000 group by ti_tg_id) where tg_id = ti_tg_id
-select ti_tg_id from tire_item where ti_pricefac < 200000 group by ti_tg_id

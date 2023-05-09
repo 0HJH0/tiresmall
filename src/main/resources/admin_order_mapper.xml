@@ -36,5 +36,13 @@
 		        order by o_no))
 	    where rn &gt;= #{start} and rn &lt;= #{end}
 	</select>
+	
+	<update id="updateOrder">
+		update product_order set o_step = #{o_step} where o_no = #{o_no}
+	</update>
+	
+	<delete id="deleteOrder">
+		delete from product_order where o_no = #{o_no}
+	</delete>
 
 </mapper>

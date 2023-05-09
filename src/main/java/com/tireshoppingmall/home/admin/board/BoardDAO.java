@@ -54,33 +54,33 @@ public class BoardDAO {
 			noticeCount = ss.getMapper(AdminBoardMapper.class).getNoticeCount(search);
 		}
 		List<NoticeDTO> notices = ss.getMapper(AdminBoardMapper.class).getNotice(search);
-		System.out.println(count);
-		System.out.println(allNoticeCount);
 		int pageCount = (int) Math.ceil(noticeCount / (double) count);
-		System.out.println(noticeCount);
-		System.out.println(pageCount);
 	
 		req.setAttribute("pageCount", pageCount);
 		req.setAttribute("notices", notices);
 		req.setAttribute("curPage", pageNo);
+		req.setAttribute("searchVal", search.getTitleInput());
 	}
 	
 
-/*	public void getAllNotice(HttpServletRequest req) {
+	/*	public void getAllNotice(HttpServletRequest req) {
 		
 		List<NoticeDTO> notice = ss.getMapper(AdminBoardMapper.class).getAllNotice();
 		req.setAttribute("notice", notice);
 		
 	}*/
 
-	public void search(HttpServletRequest req, SearchDTO sDTO) {
+	/*public void search(HttpServletRequest req, SearchDTO sDTO) {
 			String[] option = {"","안내","매장","프로모션"};
 			sDTO.setSelectOption(option[Integer.parseInt(req.getParameter("selectOption"))]);
 			List<NoticeDTO> notice = ss.getMapper(AdminBoardMapper.class).searchAllNotice(sDTO);
 			req.setAttribute("notice", notice);
-	}
+	}*/
 
 	public void regNotice(HttpServletRequest req, NoticeDTO nDTO) {
+		String n_txt = nDTO.getN_txt();
+		nDTO.setN_txt(n_txt.replace("\r\n", "<br>"));
+		
 		if(ss.getMapper(AdminBoardMapper.class).regNotice(nDTO) == 1) {
 			req.setAttribute("regR", "등록 성공");
 			allNoticeCount++;
@@ -91,6 +91,9 @@ public class BoardDAO {
 	}
 
 	public void updateNotice(HttpServletRequest req, NoticeDTO nDTO) {
+		String n_txt = nDTO.getN_txt();
+		nDTO.setN_txt(n_txt.replace("\r\n", "<br>"));
+		
 		if(ss.getMapper(AdminBoardMapper.class).updateNotice(nDTO) >= 1) {
 			req.setAttribute("updateR", "업데이트 성공");
 		}else {

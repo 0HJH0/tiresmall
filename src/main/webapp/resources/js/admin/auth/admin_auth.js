@@ -4,40 +4,62 @@ $(function() {
 	});
 	
 	
-	$("#auth_modal_cancel").click(function() {
+	$(".admin_cenBTN").click(function() {
 		$("#auth_modal").css("display","none");
 	})
+	
+	$(window).keydown(function(e) {
+		if(e.keyCode == 13){
+			$("#adminauthserch").trigger("click");
+		}
+	})
+
+	
+	
 	
 	
 });
 
 
-function updateauth(id,sortation,name,phone,address,carNum,carModel,carYear) {
-	if(sortation=='일반'){
+function updateauth(no,id,grade,name,phone,carNum,carName,carBrand,carYear) {
+	if(grade == 1){
 		$('.auth_sortation_option1').prop('selected',"selected");
-	}else if(sortation=='관리자'){
+	}else if(grade == 3){
 		$('.auth_sortation_option3').prop('selected',"selected");		
 	}else{
-		
 		$('.auth_sortation_option2').prop('selected',"selected");		
-		/*$('.auth_sortation_option2').attr('selected',"selected");	*/	
 	}
+	console.log(no);
+	console.log(id);
 	console.log(carNum);
-	console.log(carModel);
+	console.log(carName);
+	console.log(carBrand);
 	console.log(carYear);
-	$('#auth_id').val(id);
-	$('#auth_name').val(name);
-	$('#auth_phone').val(phone);
-	$('#auth_address').val(address);
-	$('#auth_carNUm').val(carNum);
-	$('#auth_carModel').val(carModel);
-	$('#auth_carYear').val(carYear);
+	
+	$('#auth_i_no').val(no);
+	$('#auth_id').text(id);
+	$('#auth_name').text(name);
+	$('#auth_phone').text(phone);
+	$('#auth_carNUm').text(carNum);
+	$('#auth_carName').text(carName);
+	$('#auth_carBrand').text(carBrand);
+	$('#auth_carYear').text(carYear +"년");
+	
+	$(window).keydown(function(e) {
+		if(e.keyCode == 13){
+			$(".admin_printBTN").trigger("click");
+		}
+		if(e.keyCode == 27){
+			$(".admin_cenBTN").trigger("click");
+		}
+	})
+
 }
 
 function deleteAuth(id) {
 	var ok = confirm("정말 삭제하시겠습니까?");
 	if (ok) {
-		location.href = "auth.delete.go?a_id="+id;
+		location.href = "auth.delete.go?u_id="+id;
 	}
 }
 

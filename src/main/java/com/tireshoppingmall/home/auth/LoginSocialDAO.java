@@ -145,20 +145,34 @@ public class LoginSocialDAO {
 	    }
 
 
-		public int checkIdkko(String kakaoID) {
+		public int checkIdkko(String ID) {
 			
-			return ss.getMapper(MemberMapper.class).checkIDkko(kakaoID);
+			return ss.getMapper(MemberMapper.class).checkIDkko(ID);
 			
 		}
 
 
 		public void login(String socialID, HttpServletRequest req) {
-		
+			
+			System.out.println("소셜아이디 : " + socialID);
 			AuthUserDTO member = ss.getMapper(MemberMapper.class).getSocialMember(socialID);
 			req.getSession().setAttribute("loginMember", member);
 			req.getSession().setMaxInactiveInterval(60 * 10);
 				
 				
+		}
+
+
+		public Boolean regMemberSocial(HttpServletRequest req, MemberDTO mDTO) {
+			
+			if(ss.getMapper(MemberMapper.class).regMemberSocial(mDTO)>=3) {
+				System.out.println("가입성공");
+				req.setAttribute("resultMem", "가입성공");
+				return true;
+			}else {
+				req.setAttribute("resultMem", "가입실패");
+				return false;
+			}			
 		}
 
 

@@ -8,8 +8,8 @@ public interface AdminOrderMapper {
 
 	List<OrderDTO> getOrder(OrderSearchDTO orderSearch);
 
-	int updateOrder(OrderSearchDTO osDTO);
+	int updateOrder(OrderUpdateDTO ouDTO);
 
-	boolean deleteOrder(OrderSearchDTO osDTO);
+	int deleteOrder(String o_no);
 
 }

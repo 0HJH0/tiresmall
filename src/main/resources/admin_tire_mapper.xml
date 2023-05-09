@@ -6,88 +6,29 @@
 	select count(*)
 		from tire_group 
 		where 	
-		<choose>
-			<when test="tg_brand==2">
-				tg_brand = '미쉐린타이어' and 
-			</when>
-			<when test="tg_brand==3">
-				tg_brand = '금호타이어' and 
-			</when>
-			<when test="tg_brand==4">
-				tg_brand = '콘티넨탈타이어' and 
-			</when>
-			<when test="tg_brand==5">
-				tg_brand = '한국타이어' and 
-			</when>
-			<when test="tg_brand==6">
-				tg_brand = '넥센타이어' and 
-			</when>
-			<when test="tg_brand==7">
-				tg_brand = '요코하마타이어' and 
-			</when>
-			<when test="tg_brand==8">
-				tg_brand = '브리지스톤타이어' and 
-			</when>
-			<when test="tg_brand==9">
-				tg_brand = '굳이어타이어' and 
-			</when>
-			<when test="tg_brand==10">
-				tg_brand = '던롭타이어' and 
-			</when>
-			<when test="tg_brand==11">
-				tg_brand = '피렐리타이어' and 
-			</when>
-			<when test="tg_brand==12">
-				tg_brand = 'BF굿리치타이어' and 
-			</when>
-		</choose>
+		<if test="tg_brand != '전체'">
+			tg_brand like '%'||#{tg_brand}||'%' and 
+		</if> 
 		tg_name like '%'||#{tg_name}||'%' 
 </select>
 
-
 <select id="getAllTireGroup" resultType="com.tireshoppingmall.home.admin.tire.TireDTO">
-	select * from (select 
-	rownum as rn,tg_id,tg_brand,tg_name,tg_img,tg_text,tg_dcrate,tg_print,tg_sedan,tg_suv
+	select * from 
+	(select rownum as rn,tg_id,tg_brand,tg_name,tg_img,tg_text,tg_dcrate,tg_print,tg_sedan,tg_suv,TG_DETAIL
 	 from (select * from tire_group  
 	 where 
-		<choose>
-			<when test="tg_brand==2">
-				tg_brand = '미쉐린타이어' and
-			</when>
-			<when test="tg_brand==3">
-				tg_brand = '금호타이어' and 
-			</when>
-			<when test="tg_brand==4">
-				tg_brand = '콘티넨탈타이어' and 
-			</when>
-			<when test="tg_brand==5">
-				tg_brand = '한국타이어' and 
-			</when>
-			<when test="tg_brand==6">
-				tg_brand = '넥센타이어' and 
-			</when>
-			<when test="tg_brand==7">
-				tg_brand = '요코하마타이어' and 
-			</when>
-			<when test="tg_brand==8">
-				tg_brand = '브리지스톤타이어' and 
-			</when>
-			<when test="tg_brand==9">
-				tg_brand = '굳이어타이어' and 
-			</when>
-			<when test="tg_brand==10">
-				tg_brand = '던롭타이어' and 
-			</when>
-			<when test="tg_brand==11">
-				tg_brand = '피렐리타이어' and 
-			</when>
-			<when test="tg_brand==12">
-				tg_brand = 'BF굿리치타이어' and 
-			</when>
-		</choose>
+	 	<if test="tg_brand != '전체'">
+			tg_brand like '%'||#{tg_brand}||'%' and 
+		</if> 
 		tg_name like '%'||#{tg_name}||'%' 
 			order by tg_id desc )  <!-- 계발중이니깐 이런데 나중에는 지워줘야함 -->
 			)where rn &gt;= #{start} and rn &lt;= #{end}
+</select>
+
+<select id="getTireBrandPrint" resultType="com.tireshoppingmall.home.admin.tire.TireDTO">
+	select * from tire_brand 
+	where tb_ea = '1'
+	order by tb_order
 </select>
 
 <select id="getTireCountByMz" resultType="int">
@@ -97,6 +38,123 @@
 <delete id="deleteTireGroup">
 	delete from tire_group where tg_id=#{tg_id}
 </delete>
+
+<update id="tirePrintOnOff">
+	update tire_group
+	set tg_print = #{tg_print}
+	where tg_id = #{tg_id}
+</update>
+
+<update id="tireSedanRecommend">
+	update tire_group
+	set tg_sedan = #{tg_sedan}
+	where tg_id = #{tg_id}
+</update>
+
+<update id="tireSuvRecommend">
+	update tire_group
+	set tg_suv = #{tg_suv}
+	where tg_id = #{tg_id}
+</update>
+<update id="tireGroupDcrateChange">
+	update tire_group
+	set tg_dcrate = #{tg_dcrate}
+	where tg_id = #{tg_id}
+</update>
+
+
+
+
+
+
+<insert id="tireGroupReg">
+	insert into tire_group values(tire_group_seq.nextval,#{tg_brand},
+	#{tg_name},#{tg_img},#{tg_text},#{tg_dcrate},#{tg_print},#{tg_sedan},#{tg_suv},#{tg_detail})
+</insert>
+
+
+<!-- 이거 예외처리는 어떻게 할것인가? 같은 이름의 타이어가 있을경우  -->
+<select id="getTireGroupPk" resultType="int">
+	select tg_id from tire_group where tg_name =#{val}
+</select>
+<!-- 이게 맞나? -->
+<insert id="tierItemReg">
+	insert into tire_item values(tire_item_seq.nextval,#{ti_tg_id},#{ti_width},#{ti_ratio},#{ti_inch},#{ti_stock},#{ti_pricefac},#{ti_marking})
+</insert>
+<!-- 여기서 여러번 등록하는곳 		MyBatis에서 여러번 등록-->
+<!-- <insert id= "tierItemReg2">
+	insert into
+		tire_item
+		(TI_ID,TI_TG_ID,TI_WIDTH,TI_RATIO,TI_INCH,TI_STOCK,TI_PRICEFAC,TI_MARKING,)
+		values
+		<foreach collection="TireListDTO"> List<TireDTO></foreach>
+</insert>
+ -->
+<select id="getTireGroupDetail" resultType="com.tireshoppingmall.home.admin.tire.TireDTO">
+	select * from tire_group where tg_id = #{val}
+</select>
+
+ 
+<select id="getTireItem" resultType="com.tireshoppingmall.home.admin.tire.TireDTO">
+	select * from tire_item where ti_tg_id = #{tg_id} 
+</select>
+ 
+
+
+<select id="getTireGroupforDetail" resultType="com.tireshoppingmall.home.admin.tire.TireDTO">
+	select * from tire_group, tire_item
+	where ti_tg_id = tg_id
+	and ti_id = #{val}
+</select>
+<delete id="tireSizeDelete">
+	delete from tire_item where ti_id= #{val}
+</delete>
+
+<update id="tireNameChage">
+	update tire_group
+	set tg_name = #{tg_name}
+	where tg_id=#{tg_id}
+</update>
+
+<update id="tireTextChage">
+	update tire_group
+	set tg_text = #{tg_text}
+	where tg_id=#{tg_id}
+</update>
+
+<update id="tireSizeChage">
+	update tire_item
+	set ti_width=#{ti_width},ti_ratio=#{ti_ratio},ti_inch=#{ti_inch}
+	where ti_id=#{ti_id}
+</update>
+<update id="tireMarckingChange">
+	update tire_item
+	set ti_marking = #{ti_marking}
+	where ti_id=#{ti_id}
+</update>
+<update id="tirePriceChange">
+	update tire_item
+	set ti_pricefac = #{ti_pricefac}
+	where ti_id=#{ti_id}
+</update>
+<update id="tireStockChange">
+	update tire_item
+	set ti_stock = #{ti_stock}
+	where ti_id=#{ti_id}
+</update>
+
+
+<update id="tireImgUpdate">
+	update tire_group
+	set tg_img = #{tg_img}
+	where tg_id=#{tg_id}
+</update>
+<update id="tireImgsUpdate">
+	update tire_group
+	set tg_detail = #{tg_detail}
+	where tg_id=#{tg_id}
+</update>
+
 
 
 
@@ -115,21 +173,31 @@
 	delete from tire_brand where tb_name= #{tb_name}
 </delete>
 
+<update id="tireBrandPrintOnOff">
+	update tire_brand
+	set tb_ea = #{tb_ea}
+	where tb_name= #{tb_name}
+</update>
+<!-- <update id="tireSBrandNameChange">
+	update tire_brand
+	set tb_name = #{tb_name}
+	where tb_name= #{brandNameBefor}
+</update> -->
+<update id="tireBrandOrderChange">
+	update tire_brand
+	set tb_order = #{tb_order}
+	where tb_name= #{tb_name}
+</update>
+
+<insert id="regTireBrand">
+	insert into tire_brand values(#{tb_name},#{tb_ea},#{tb_order})
+</insert>
+
+<insert id="adminTireSizeNewInsertReg">
+	insert into tire_item values(tire_item_seq.nextval,#{ti_tg_id},#{ti_width},#{ti_ratio},#{ti_inch},#{ti_stock},#{ti_pricefac},#{ti_marking})
+</insert>
 
 
-
-
-
-
-
-
-
-
-<select id="getTireGroupforDetail" resultType="com.tireshoppingmall.home.admin.tire.TireDTO">
-	select * from tire_group, tire_item
-	where ti_tg_id = tg_id
-	and ti_tg_id=#{val}
-</select>
 
 
 </mapper>

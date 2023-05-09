@@ -1,12 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tireshoppingmall.home.board.BoardMapper">
-	<select id="getAskCount" resultType="java.lang.Integer">
+	<select id="getFaqCount" resultType="java.lang.Integer">
 		select count(*)
-        from qna, auth_user
-        where q_id = u_id
+		from faq
+		<choose>
+			<when test="f_sortation != null">
+				where f_sortation like '%'||#{f_sortation}||'%'
+			</when>
+			<otherwise>
+				<if test="faqSearchSelection == 1">
+					where	f_title like '%'||#{faqSearch}||'%' or
+							f_txt like '%'||#{faqSearch}||'%'
+				</if>
+				<if test="faqSearchSelection == 2">
+					where	f_title like '%'||#{faqSearch}||'%'
+				</if>
+				<if test="faqSearchSelection == 3">
+					where	f_txt like '%'||#{faqSearch}||'%'
+				</if>
+			</otherwise>
+		</choose>
 	</select>
-	<select id="getAskAll" resultType="com.tireshoppingmall.home.board.AskDTO">
+	<select id="readFaq" resultType="com.tireshoppingmall.home.board.BoardFaqDTO">
+		select *
+        from (
+			select	rownum as rownumber,
+					f_no,
+					f_title,
+					f_txt
+			from (
+				select *
+				from faq
+				<choose>
+					<when test="f_sortation != null">
+						where f_sortation like '%'||#{f_sortation}||'%'
+						<!-- 
+						 order by f_title;
+						 -->
+					</when>
+					<otherwise>
+						<if test="faqSearchSelection == 1">
+							where	f_title like '%'||#{faqSearch}||'%' or
+									f_txt like '%'||#{faqSearch}||'%'
+						</if>
+						<if test="faqSearchSelection == 2">
+							where	f_title like '%'||#{faqSearch}||'%'
+						</if>
+						<if test="faqSearchSelection == 3">
+							where	f_txt like '%'||#{faqSearch}||'%'
+						</if>
+						<!-- 
+						order by f_sortation
+						 -->
+					</otherwise>
+				</choose>
+			)
+        )
+        where rownumber &gt;= #{begin} and rownumber &lt;= #{last}
+	</select>
+
+
+
+	<select id="getQnaCount" resultType="java.lang.Integer">
+		select count(*)
+		<!-- 
+        from qna, auth_user
+        where	u_id = #{u_id} and
+        		q_id = #{u_id}
+		 -->
+        from qna
+        where q_u_no = #{u_no}
+	</select>
+	<select id="readQna" resultType="com.tireshoppingmall.home.board.BoardQnaDTO">
 		select *
         from (
 			select	rownum as rownumber,
@@ -15,26 +81,31 @@
 					q_date
 			from (
 				select *
+				<!-- 
 				from qna, auth_user
-				where q_id = u_id
+				where	u_id = #{u_id} and
+						q_id = #{u_id}
+				 -->
+				 from qna
+				 where q_u_no = #{u_no}
 				order by q_date desc
 			)
         )
         where rownumber &gt;= #{begin} and rownumber &lt;= #{last}
 	</select>
 	
-	<select id="getAskOne" resultType="com.tireshoppingmall.home.board.AskDTO">
+	<select id="readdetailQna" resultType="com.tireshoppingmall.home.board.BoardQnaDTO">
 		select *
 		from qna
 		where q_no = #{q_no}
 	</select>
-	<select id="getAskReply" resultType="com.tireshoppingmall.home.board.AskReplyDTO">
+	<select id="readQnaReply" resultType="com.tireshoppingmall.home.board.BoardQnaReplyDTO">
 	 	select *
 	 	from qna_reply
 	 	where q_reply_board_no = #{q_no}
 	</select>
 	
-	<insert id="createAsk">
+	<insert id="createQna">
 		insert
 		into qna
 		values(
@@ -42,12 +113,12 @@
 			#{q_title},
 			#{q_txt},
 			sysdate,
-			'id1',
+			#{q_u_no},
 			default
 		)
 	</insert>
 	
-	<update id="updateAsk">
+	<update id="updateQna">
 		update
 		qna
 		set	q_title = #{q_title},
@@ -55,9 +126,78 @@
 		where q_no = #{q_no}
 	</update>
 	
-	<delete id="deleteAsk">
+	<delete id="deleteQna">
 		delete
 		qna
 		where q_no = #{q_no}
 	</delete>
+	
+	
+	<select id="getNoticeCount" resultType="java.lang.Integer">
+		select count(*)
+		from notice
+	</select>
+	<select id="readNotice" resultType="com.tireshoppingmall.home.board.BoardNoticeDTO">
+		select *
+        from (
+			select	rownum as rownumber,
+					n_no,
+					n_title,
+					n_date
+			from (
+				select *
+				from notice
+				order by n_date desc
+			)
+        )
+        where rownumber &gt;= #{begin} and rownumber &lt;= #{last}
+	</select>
+	
+	<select id="readdetailNotice" resultType="com.tireshoppingmall.home.board.BoardNoticeDTO">
+		select *
+		from notice
+		where n_no = #{n_no}
+	</select>
+	
+	
+	
+	<select id="readEventModal" resultType="com.tireshoppingmall.home.board.BoardEventDTO">
+		select *
+		from event
+		order by e_date
+	</select>
+	
+	<select id="getEventCount" resultType="java.lang.Integer">
+		select count(*)
+		from event
+	</select>
+	<select id="readEvent" resultType="com.tireshoppingmall.home.board.BoardEventDTO">
+		select *
+        from (
+			select	rownum as rownumber,
+					e_no,
+					e_title,
+					e_date,
+					e_status
+			from (
+				select *
+				from event
+				order by e_date desc
+			)
+        )
+        where rownumber &gt;= #{begin} and rownumber &lt;= #{last}
+	</select>
+	
+	<select id="readdetailEvent" resultType="com.tireshoppingmall.home.board.BoardEventDTO">
+		select *
+		from event
+		where e_no = #{e_no}
+	</select>
+	<!-- 
+	<select id="readDetailimgs" resultType="string">
+		select e_detailimg
+		from event
+		where e_no = #{e_no}
+	</select>
+	 -->
 </mapper>

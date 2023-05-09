@@ -19,26 +19,25 @@
 	<input id="sm" value="3" type="hidden"> 
 	<div id="notice_modal" class="notice_modal hidden"
 		style="display: none;">
-
 		<form id="reg_modal" action="reg.faq.do">
 			<div class="modal-wrapper">
 				<div class="notice_modalcontent">
 					<div class="notice_header">FAQ</div>
-					<div>
+					<div id="notice_modal_main_content">
 						<input type="hidden" name="f_no" id="idInput_M">
-
 						<table class="modal_table" border="1">
 							<tr>
 								<td class="left_td">구분/제목</td>
 								<td>구분</td>
-								<td width="100px;"><select name="selectOption"
-									id="sortationSelect_M" class="notice_select">
+								<td width="100px;">
+									<select name="selectOption" id="sortationSelect_M" class="notice_select" style="width: 170px;">
 										<option value="주문/배송">주문/배송</option>
 										<option value="상품관련">상품관련</option>
 										<option value="장착관련">장착관련</option>
 										<option value="반품/교환/취소">반품/교환/취소</option>
 										<option value="회원">회원</option>
-								</select></td>
+									</select>
+								</td>
 								<td>제목</td>
 								<td><input name="f_title" id="titleInput_M"></td>
 							</tr>
@@ -78,11 +77,11 @@
 					</div>
 					<div class="input_box">
 						<div class="no-drag">제목</div>
-						<input name="titleInput" id="f_title">
+						<input name="titleInput" id="f_title" value="${searchVal }">
 					</div>
 					<div class="button_box">
-						<button id="searchBtn" class="noticeBtn color-1">검색</button>
-						<button type="button" class="noticeBtn color-2"
+						<button id="searchBtn" class="noticeregBtn">검색</button>
+						<button type="button" class="noticeregBtn"
 							id="faq_reg_modal">신규 등록</button>
 					</div>
 				</div>
@@ -95,7 +94,7 @@
 							<th class="th_head">구분</th>
 							<th class="th_head">제목</th>
 							<th class="th_head">게시일</th>
-							<th class="th_head"></th>
+							<th class="th_head">관리</th>
 						</tr>
 						<c:if test="${empty faqs}">
 							<tr>

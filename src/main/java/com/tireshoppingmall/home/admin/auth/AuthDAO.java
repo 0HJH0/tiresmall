@@ -28,24 +28,26 @@ public class AuthDAO {
 	}
 
 	public void calcAllAuthCount() {
-		AuthDTO startEnd = new AuthDTO("","","","",null, null);
-		allAuthCount = ss.getMapper(AdminAuthMapper.class).getAuthCount(startEnd);	
-	}
+        AuthDTO startEnd = new AuthDTO();
+        startEnd.setU_id("");
+        startEnd.setI_name("");
+        allAuthCount = ss.getMapper(AdminAuthMapper.class).getAuthCount(startEnd);
+    }
 	
 	public void getAllAuth(int pageNo,HttpServletRequest req) {
 		int count = no.getAuthCountPerPage();
-		
 		int start = (pageNo - 1) * count + 1;
 		int end = start + (count - 1);
 		
 		AuthDTO paging = (AuthDTO)req.getSession().getAttribute("authDTO");
 		int authCount = 0;
+		
 		if (paging == null) {
 			paging = new AuthDTO();
-			paging.setA_id("");
-			paging.setA_Sortation("");
-			paging.setA_name("");
-			paging.setMc_number("");
+			paging.setU_id("");
+			paging.setI_name("");
+			paging.setMc_number(null);
+			paging.setI_grade(0);
 			paging.setStart(new BigDecimal(start));
 			paging.setEnd(new BigDecimal(end));
 			authCount = allAuthCount;
@@ -54,8 +56,9 @@ public class AuthDAO {
 			paging.setEnd(new BigDecimal(end));
 			authCount = ss.getMapper(AdminAuthMapper.class).getAuthCount(paging);
 		}
-		
+	
 		List<AuthDTO> manyAuth = ss.getMapper(AdminAuthMapper.class).getAuth(paging);
+	
 		int pageCount = (int) Math.ceil(authCount / (double) count);
 	
 		req.setAttribute("count", count);
@@ -67,6 +70,7 @@ public class AuthDAO {
 	public void authDelete(HttpServletRequest req, AuthDTO aDTO) {
 		if(ss.getMapper(AdminAuthMapper.class).authDelete(aDTO)==1) {
 			req.setAttribute("r", "삭제 성공");
+			allAuthCount--;
 		}
 		
 	}

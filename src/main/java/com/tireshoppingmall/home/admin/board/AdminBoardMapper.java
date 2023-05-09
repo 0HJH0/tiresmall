@@ -32,12 +32,13 @@ public interface AdminBoardMapper {
 
 	List<QnaDTO> searchQnA(SearchDTO SearchDTO);
 
+	int countQnAReply(QnaReplyDTO qnaReplyDTO);
 	int insertQnAReply(QnaReplyDTO qnaReplyDTO);
+	void updateQna(QnaReplyDTO qnaReplyDTO);
+	int updateQnAReply(QnaReplyDTO qnaReplyDTO);
 
 	QnaReplyDTO getReply(QnaReplyDTO qnaReplyDTO);
-
-	void updateQna(QnaReplyDTO qnaReplyDTO);
-
+	
 	int getNoticeCount(SearchDTO search);
 
 	List<NoticeDTO> getNotice(SearchDTO search);
@@ -50,7 +51,19 @@ public interface AdminBoardMapper {
 
 	List<QnaDTO> getQna(SearchDTO search);
 
-	
+	int getEventCount(SearchDTO sSel);
+
+	List<EventDTO> getEvent(SearchDTO search);
+
+	int switchPopup(EventDTO eventDTO);
+
+	EventDTO eventDetail(EventDTO eventDTO);
+
+	int eventUpdate(EventDTO eventDTO);
+
+	int eventDelete(EventDTO eventDto);
+
+	int eventReg(EventDTO eventDto);
 
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AdminOrderController {
@@ -43,21 +44,18 @@ public class AdminOrderController {
 	}
 
 	@RequestMapping(value = "/update.order.do", method = RequestMethod.GET)
-	public String updateOrder(HttpServletRequest req, OrderSearchDTO osDTO) {
-		
-		oDAO.updateOrder(osDTO, req);
-		oDAO.getOrder(1, req);
-		req.setAttribute("contentPage", "order/order.jsp");
-		return "admin/master";
+	public String updateOrder(HttpServletRequest req, @RequestParam String o_no, @RequestParam String o_step) {
+		System.err.println(o_no);
+		System.err.println(o_step);
+		oDAO.updateOrder(req, o_no, o_step);
+		return "redirect:admin.order.go";
 	}
-
+	
+	@ResponseBody
 	@RequestMapping(value = "/delete.order.do", method = RequestMethod.GET)
-	public String deleteOrder(HttpServletRequest req, OrderSearchDTO osDTO) {
+	public int deleteOrder(HttpServletRequest req, @RequestParam("o_no") String o_no) {
 		
-		oDAO.deleteOrder(osDTO, req);
-		oDAO.getOrder(1, req);
-		req.setAttribute("contentPage", "order/order.jsp");
-		return "admin/master";
+		return oDAO.deleteOrder(req, o_no);
 	}
 	
 	@RequestMapping(value = "/order.page.change", method = RequestMethod.GET)

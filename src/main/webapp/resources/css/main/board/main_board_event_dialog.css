@@ -1,0 +1,7 @@
+.board_event_modal_dialog {
+	background-color: transparent;
+}
+
+.board_event_modal_dialog::backdrop {
+	background-color: rgba(0, 0, 0, 0.8);
+}

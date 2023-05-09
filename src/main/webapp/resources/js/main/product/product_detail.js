@@ -8,26 +8,30 @@ const minusBtn = document.querySelector(".detail_minus");
 
 const priceTab = document.querySelector(".detail_price_wrapper");
 
-const tg_id = document.querySelector(".tg_id").value;
-const tg_brand = document.querySelector(".tg_brand").value;
-const tg_name = document.querySelector(".tg_name").value;
-const tg_img = document.querySelector(".tg_img").value;
-const tg_dcrate = document.querySelector(".tg_dcrate").value;
+const product_tg_id = document.querySelector(".product_tg_id").value;
+const product_tg_brand = document.querySelector(".product_tg_brand").value;
+const product_tg_name = document.querySelector(".product_tg_name").value;
+const product_tg_img = document.querySelector(".product_tg_img").value;
+const product_tg_dcrate = document.querySelector(".product_tg_dcrate").value;
 
 const quantityInput = document.querySelector(".detail_quantity_input");
 let quantityInputValue = parseInt(quantityInput.value);
 const finalPrice = document.querySelector(".detail_final_price");
 const notPrice = document.querySelector(".detail_not_price");
 
-function sizeSelect(width, ratio, inch, size, price, facPrice) {
+function sizeSelect(id, width, ratio, inch, marking, size, price, facPrice) {
   finalPrice.innerText = `${parseInt(price).toLocaleString()}원`;
   notPrice.innerText = `${parseInt(facPrice).toLocaleString()}원`;
   document.querySelector(".detail_option_size").innerText = size;
-  document.querySelector(".ti_width").value = width;
-  document.querySelector(".ti_ratio").value = ratio;
-  document.querySelector(".ti_inch").value = inch;
-  document.querySelector(".ti_pricegp").value = price;
-  document.querySelector(".ti_pricefac").value = facPrice;
+  document.querySelector(".product_ti_id").value = id;
+  document.querySelector(".product_ti_width").value = width;
+  document.querySelector(".product_ti_ratio").value = ratio;
+  document.querySelector(".product_ti_inch").value = inch;
+  document.querySelector(".product_ti_marking").value = marking;
+  document.querySelector(".product_ti_pricegp").value = price;
+  document.querySelector(".product_ti_pricefac").value = facPrice;
+  quantityInput.value = 1;
+  quantityInputValue = 1;
   priceTab.style.display = "block";
 }
 
@@ -36,13 +40,18 @@ sizeBtn.addEventListener("click", () => {
   $.ajax({
     url: "product.size.get",
     type: "POST",
-    data: { tg_id },
+    data: { tg_id: product_tg_id },
     success: function (data) {
       $(".size_wrapper").empty();
       const tireSizes = data["sizes"];
-      const tireDiscount = (100 - tg_dcrate) * 0.01;
+      const tireDiscount = (100 - product_tg_dcrate) * 0.01;
+      let tireSize;
       $.each(tireSizes, function (i) {
-        const tireSize = `${tireSizes[i]["ti_width"]}/${tireSizes[i]["ti_ratio"]}R${tireSizes[i]["ti_inch"]}(${tireSizes[i]["ti_hg"]}${tireSizes[i]["ti_speed"]})`;
+        if (tireSizes[i]["ti_ratio"] === 0) {
+          tireSize = `${tireSizes[i]["ti_width"]}R${tireSizes[i]["ti_inch"]} (${tireSizes[i]["ti_marking"]})`;
+        } else {
+          tireSize = `${tireSizes[i]["ti_width"]}/${tireSizes[i]["ti_ratio"]}R${tireSizes[i]["ti_inch"]} (${tireSizes[i]["ti_marking"]})`;
+        }
         const tirePrice =
           Math.floor((tireSizes[i]["ti_pricefac"] * tireDiscount) / 100) * 100;
         $(".size_wrapper").append(`
@@ -50,9 +59,11 @@ sizeBtn.addEventListener("click", () => {
             <button 
               class="tire_size_button${i}"
               onclick="sizeSelect(
+                '${tireSizes[i]["ti_id"]}',
                 '${tireSizes[i]["ti_width"]}',
                 '${tireSizes[i]["ti_ratio"]}',
                 '${tireSizes[i]["ti_inch"]}',
+                '${tireSizes[i]["ti_marking"]}',
                 '${tireSize}',
                 '${tirePrice}',
                 '${tireSizes[i]["ti_pricefac"]}'
@@ -60,9 +71,10 @@ sizeBtn.addEventListener("click", () => {
             "></button>
           </div>
         `);
-        $(`.tire_size_button${i}`).text(
-          `${tireSize} ${tirePrice.toLocaleString()}원`
-        );
+        $(`.tire_size_button${i}`).append(`
+          <span>${tireSize}</span>
+          <span>${tirePrice.toLocaleString()}원</span>
+          `);
       });
     },
   });
@@ -75,9 +87,11 @@ plusBtn.addEventListener("click", () => {
   quantityInputValue++;
   quantityInput.value = quantityInputValue;
   const finalPriceValue =
-    parseInt(document.querySelector(".ti_pricegp").value) * quantityInputValue;
+    parseInt(document.querySelector(".product_ti_pricegp").value) *
+    quantityInputValue;
   const notPriceValue =
-    parseInt(document.querySelector(".ti_pricefac").value) * quantityInputValue;
+    parseInt(document.querySelector(".product_ti_pricefac").value) *
+    quantityInputValue;
   finalPrice.innerText = `${finalPriceValue.toLocaleString()}원`;
   notPrice.innerText = `${notPriceValue.toLocaleString()}원`;
 });
@@ -88,50 +102,96 @@ minusBtn.addEventListener("click", () => {
   }
   quantityInput.value = quantityInputValue;
   const finalPriceValue =
-    parseInt(document.querySelector(".ti_pricegp").value) * quantityInputValue;
+    parseInt(document.querySelector(".product_ti_pricegp").value) *
+    quantityInputValue;
   const notPriceValue =
-    parseInt(document.querySelector(".ti_pricefac").value) * quantityInputValue;
+    parseInt(document.querySelector(".product_ti_pricefac").value) *
+    quantityInputValue;
   finalPrice.innerText = `${finalPriceValue.toLocaleString()}원`;
   notPrice.innerText = `${notPriceValue.toLocaleString()}원`;
 });
 
-cartBtn.addEventListener("click", () => {
-  const ti_width = document.querySelector(".ti_width").value;
-  const ti_ratio = document.querySelector(".ti_ratio").value;
-  const ti_inch = document.querySelector(".ti_inch").value;
-  const ti_stock = quantityInputValue;
-  const ti_pricefac =
-    parseInt(document.querySelector(".ti_pricegp").value) * quantityInputValue;
-  const ti_pricegp =
-    parseInt(document.querySelector(".ti_pricegp").value) * quantityInputValue;
+function insertToCart(go) {
+  const product_ti_id = document.querySelector(".product_ti_id").value;
+  const product_ti_width = document.querySelector(".product_ti_width").value;
+  const product_ti_ratio = document.querySelector(".product_ti_ratio").value;
+  const product_ti_inch = document.querySelector(".product_ti_inch").value;
+  const product_ti_marking = document.querySelector(
+    ".product_ti_marking"
+  ).value;
+  const product_ti_stock = quantityInputValue;
+  const product_ti_pricefac = document.querySelector(
+    ".product_ti_pricefac"
+  ).value;
+  const product_ti_pricegp = document.querySelector(
+    ".product_ti_pricegp"
+  ).value;
+  const product_ti_allpricefac =
+    quantityInputValue *
+    parseInt(document.querySelector(".product_ti_pricefac").value);
+  const product_ti_allpricegp =
+    quantityInputValue *
+    parseInt(document.querySelector(".product_ti_pricegp").value);
 
   const cartDTO = {
-    tg_id,
-    tg_brand,
-    tg_name,
-    tg_img,
-    tg_dcrate,
-    ti_width,
-    ti_ratio,
-    ti_inch,
-    ti_stock,
-    ti_pricegp,
-    ti_pricefac,
+    tg_id: product_tg_id,
+    tg_brand: product_tg_brand,
+    tg_name: product_tg_name,
+    tg_img: product_tg_img,
+    tg_dcrate: product_tg_dcrate,
+    ti_id: product_ti_id,
+    ti_width: product_ti_width,
+    ti_ratio: product_ti_ratio,
+    ti_inch: product_ti_inch,
+    ti_marking: product_ti_marking,
+    ti_stock: product_ti_stock,
+    ti_pricefac: product_ti_pricefac,
+    ti_pricegp: product_ti_pricegp,
+    ti_allpricefac: product_ti_allpricefac,
+    ti_allpricegp: product_ti_allpricegp,
   };
 
-  // 장바구니 추가
-  $.ajax({
-    url: "cart.add",
-    type: "POST",
-    data: cartDTO,
-    success: function (result) {
-      if (result === 1) {
-        const cartDialog = document.querySelector(".detail_cart_dialog");
-        cartDialog.showModal();
-      }
-    },
-  });
-});
+  if (go) {
+    if (product_ti_id !== "") {
+      $.ajax({
+        url: "cart.pay",
+        type: "POST",
+        data: cartDTO,
+        success: function (result) {
+          if (result === 1) {
+            location.href = "pay.go";
+          }
+        },
+      });
+    } else {
+      document.querySelector(".detail_size_warning").showModal();
+    }
+  } else {
+    // 장바구니 추가
+    if (product_ti_id !== "") {
+      $.ajax({
+        url: "cart.add",
+        type: "POST",
+        data: cartDTO,
+        success: function (result) {
+          if (result === 1) {
+            const cartDialog = document.querySelectorAll(
+              ".detail_cart_dialog"
+            )[0];
+            cartDialog.showModal();
+          } else {
+            const cartDialog = document.querySelectorAll(
+              ".detail_cart_dialog"
+            )[1];
+            cartDialog.showModal();
+          }
+        },
+      });
+    } else {
+      document.querySelector(".detail_size_warning").showModal();
+    }
+  }
+}
 
 methodBtn.addEventListener("click", () => {
   const sizeGuide = document.querySelector(".detail_size_guide");

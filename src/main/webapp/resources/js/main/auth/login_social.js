@@ -13,6 +13,12 @@ $(document).ready(function() {
          + "\n nickname : " 
          + data['nickname']);
      }
+     
+     
+     
+     
+     
+     
 	
 });
 

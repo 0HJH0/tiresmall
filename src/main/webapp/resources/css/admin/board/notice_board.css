@@ -16,18 +16,14 @@ a {
 a:visited {
 	color: white;
 }
+
 .DashBoard {
 	width: 100%;
 }
 
-.notice_board {
-	display: flex;
-	width: 99vw;
-	height: 99vh;
-}
-
 .notice_form {
 	width: 100%;
+	height:70px;
 	background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
 }
 
@@ -39,12 +35,24 @@ a:visited {
 .nb_content {
 	width: 100%;
 	height: 100%;
+	display: flex;
+	justify-content: center;
 }
 
+
 .notice_content {
-	width: 100%;
+	margin-top:10px;
+	width: 99%;
 	min-width: 1200px;
 	padding-top: 10px;
+	border-spacing: 0px;
+	border: 1px #a39485 solid;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .25);
+    width: 99%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 60px;
 }
 
 .notice {
@@ -65,52 +73,50 @@ a:visited {
 
 .select_box {
 	display: flex;
+	margin-left: 30px;
 	align-items: center;
 	margin-top: 10px;
 }
 
-.select_box>div {
-	margin-left: 30px;
-	width: 70px;
-	height: 40px;
+ .select_box>div {	
+	width: 40px;
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	background-color: black;
 	color: white;
-}
+} 
 
 .select_box>select:focus {
 	outline: none;
 }
 
 .input_box>div {
-	width: 70px;
+	width: 50px;
 	height: 40px;
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	background-color: black;
 	color: white;
 }
 
 .input_box>input {
 	width: 300px;
-    height: 30px;
-    font-size: 15pt;
-    margin-left: 10px;
+	height: 30px;
+	font-size: 15pt;
+	margin-left: 10px;
 }
 
 .input_box>input:focus {
 	outline: none;
 }
-textarea:focus{
+
+textarea:focus {
 	outline: none;
 }
+
 .notice_select {
 	width: 200px;
-    font-size: 20px;
-    margin-left: 10px;
+	font-size: 20px;
 }
 
 .input_box {
@@ -130,7 +136,8 @@ textarea:focus{
 	margin-top: 10px;
 }
 
-.noticeBtn{
+/* 
+.noticeBtn {
 	border-radius: 4px;
 	width: 70px;
 	height: 40px;
@@ -139,103 +146,255 @@ textarea:focus{
 	font-weight: bold;
 	font-size: 15px;
 	border: none;
+	cursor: pointer;
 }
 
-.color-2{
+.noticeBtn:hover {
+	color: rgb(50, 60, 70);
+	background-color: white;
+	border: 1px solid black;
+}
+
+.color-2 {
 	background-color: #3c8dbc;
 }
+
+*/
 
 .notice_content td {
 	padding: 20px;
 	text-align: center;
 }
 
+
+.noticeregBtn {
+ 
+	display: flex;
+	background-color: #5F5F5F;
+	color: #FFFFFF;
+	border: none;
+	padding: 10px 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin-left: 20px;
+	margin-right: 20px;
+	font-size: 16px;
+	font-weight: bold;
+	border-radius: 50px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.noticeregBtn:hover {
+	background-color: #FFFFFF;
+	color: #5F5F5F;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
+
 .th_head {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;	
 	font-size: 15pt;
-	padding: 20px;
-	background-color: black;
+    padding: 15px;
+    background-color: #343a40;
     color: white;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
+    text-align: center;
+    border: 1px solid white;
 }
 
 .td_c1 {
 	width: 10%;
-	background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+	border: 1px solid black;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
 .td_c2 {
 	width: 10%;
-	background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border: 1px solid black;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
 .td_c3 {
 	width: 50%;
-	background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border: 1px solid black;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
 .td_c4 {
 	width: 17%;
-	background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border: 1px solid black;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
 .td_c5 {
 	width: 13%;
-	background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+	border: 1px solid black;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
-.tdBtn>button {
-	width: 80px;
-	height: 30px;
-	border: 1px solid black;
-}
+
+
+
 
 #updBtn{
-	color: white;
-	background-color: black;
+margin-left: 5px;
+	margin-right: 5px;
+	border-radius: 7px;
+	font-weight: 900;
+	font-size: 12pt;
+	padding: 6px;
+	color: #212529;
+	background-color: #fff;
+	border-color: #212529;
+	cursor: pointer;
+	user-select: none;
+	font-family: GmarketSansMedium;
+}
+
+#updBtn:hover {
+	color: #fff;
+	background-color: #212529;
+	border-color: #212529;
 }
 
 #delBtn{
-	color: black;
+	
+	margin-left:5px;
+	margin-right:5px;
+	border-radius:7px;
+	font-weight: 900;
+	font-size: 12pt;
+	padding:6px;
+	color: #dc3545;
+    background-color: #fff;
+    border-color: #dc3545;
+      cursor: pointer; 
+    user-select: none;	
+    font-family: GmarketSansMedium;
+	
 }
 
 
+#delBtn:hover{
+	color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+
+
+
+
+
+
+
+
 #notice_modal {
-	position: absolute;
-    width: -webkit-fill-available;
-    height: 100vh;
+	position: fixed;
+	width: -webkit-fill-available;
+	height: 102.5vh;
+	top:0px;
+	z-index: 100;
 }
 
 .notice_modalcontent {
 	width: 70%;
+	align-items: center;
 }
 
-#paging-box{
+#paging-box {
 	display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 40px;
-    background-color: white;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    position: fixed;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 40px;
+	background-color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	position: fixed;
     bottom: 0px;
 }
 
-#paging-box a{
+#paging-box a {
 	padding: 7px 7px;
-    margin: 5px;
-    background-color: #E4EAEC;
-    border-radius: 3px;
+	margin: 5px;
+	background-color: #E4EAEC;
+	border-radius: 3px;
 }
 
-.no-drag{
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-  border-radius: 3px;
+.no-drag {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border-radius: 3px;
 }
+
+
+
+
+.select_box {
+	
+	justify-content:center;
+	align-items:center;
+	font-size: 15pt;
+	margin-right: 20px;
+	padding:6px;
+	border-radius:10px;
+	background-color: #181C32;
+	color:white;
+	height: 30px;
+}
+
+.select_box > div {
+	top: 2px;
+    position: relative;
+}
+
+.select_box select {
+	margin-left: 20px;
+	font-size: 12pt;
+	padding:6px;
+	border-radius:10px;
+	background-color: white;
+	font-family: GmarketSansMedium;
+}
+
+
+.car_searchTitle label {
+  margin-right: 10px;
+}
+
+
+.input_box {
+  justify-content: center;
+  align-items: center;
+  font-size: 15pt;
+  padding: 6px;
+  border-radius: 10px;
+  background-color: #181C32;
+  color: white;
+  height: 30px;
+}
+.input_box div{
+	top: 2px;
+    position: relative;
+}
+
+
+.input_box input {
+  padding-left:10px;
+  font-size: 11pt;
+  border-radius: 10px;
+  font-family: GmarketSansMedium;
+}
+

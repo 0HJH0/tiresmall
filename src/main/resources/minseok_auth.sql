@@ -120,7 +120,7 @@ create table tire_group (
 	tg_suv number(1) not null		/* suv 추천 1(t)/0(f)		tg_recommend로 해서 0(sedan) or 1(suv)로 해도 될지도?? */
 );
 
-create table tire_item (
+create table tire_item (            
 	ti_id number(5) primary key,		
 	ti_tg_id number(4) not null,		/* tire_group 테이블 pk 참조하는 것 */
 	ti_hg number(3) not null,			/* 하중 */
@@ -141,6 +141,10 @@ add CONSTRAINT FK_tire_item
 
 create sequence tire_group_seq;
 create sequence tire_item_seq;
+
+ALTER SEQUENCE TIRE_GROUP_seq INCREMENT BY 30;  --시퀀스 증가해서 오류 고치기  다시 1로 바꿔줘야한다.
+ALTER SEQUENCE tire_item_seq INCREMENT BY 1;
+
 
 select * from tire_group;
 select * from tire_item;
@@ -176,6 +180,17 @@ create table tire_brand(
     tb_order number(3) not null        --순서 출력
 );
 
+create table tire_brand(
+    tb_id number(4) primary key,
+    tb_name varchar2(100 char) not null,
+    tb_ea number(2) not null,           --1은 출력 0은 미출력
+    tb_order number(3) not null        --순서 출력
+);
+create tb_id_seq;
+
+
+drop table tire_brand;
+
 
 insert into tire_brand values('넥센타이어','1','1');
 insert into tire_brand values('금호타이어','1','2');
@@ -208,3 +223,12 @@ select count(*) from tire_group left OUTER JOIN tire_item
 	on  tg_id = ti_tg_id
 
 delete from tire_brand where tb_name= 'BF굿리치타이어';
+
+
+
+--타이어 수정페이지
+select * from tire_group left OUTER JOIN tire_item
+	on tg_id = ti_tg_id where tg_id = 1;
+
+update product_order set o_step = '배송준비중' where o_no = '117';
+

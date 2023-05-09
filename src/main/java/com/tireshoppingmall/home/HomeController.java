@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tireshoppingmall.home.board.BoardEventDAO;
+import com.tireshoppingmall.home.board.BoardEventDTO;
+import com.tireshoppingmall.home.board.BoardNoticeDAO;
+import com.tireshoppingmall.home.board.BoardNoticeDTO;
 import com.tireshoppingmall.home.store.StoreDAO;
 
 @Controller
@@ -17,20 +21,25 @@ public class HomeController {
 	private HomeDAO hDAO;
 	
 	@Autowired
+	private BoardNoticeDAO bnDAO;
+	
+	@Autowired
+	private BoardEventDAO beDAO;
+	
+	@Autowired
 	private StoreDAO sDAO;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(HttpServletRequest req) {
+	public String home(BoardNoticeDTO bn, BoardEventDTO be, HttpServletRequest req) {
+		hDAO.checkAdmin(req);
+		bnDAO.readNotice(bn, 1, req);
+		beDAO.readEventModal(be, req);
+		req.setAttribute("eventModal", "../board/board_event_modal.jsp");
 		req.setAttribute("content", "main/home/home.jsp");
 		return "index";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String goLogin() {
-		
-		return "main/auth/login";
-		
-	}
+	
 	
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String goJoin() {
@@ -73,4 +82,9 @@ public class HomeController {
 		return "index";
 	}
 	
+	@RequestMapping(value = "/non-member", method = RequestMethod.GET)
+	public String goNonMember(HttpServletRequest req) {
+		req.setAttribute("content", "main/auth/non_member.jsp");
+		return "index";
+	}
 }

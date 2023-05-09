@@ -2,15 +2,9 @@
 
 
 
-#tire_container{
-
-}
-
 #admin-tire-reg-whatPage{
 	margin-left: 110px;
 }
-
-
 
 #admin_tire_table_container{
 	display: flex;
@@ -43,6 +37,7 @@
 	width: 130px;
 	min-width: 100px;
 } 
+
 .admin-tire-reg-radio-di{
 	display: flex;
 }
@@ -128,7 +123,7 @@
 	font-size: 15pt;
 }
 
-#admin_tire_size_button{
+#admin_tire_size_button,#admin_tire_update_size_button{
 	width:79px;
 	margin:10px;
 	padding:5px 10px;
@@ -137,9 +132,10 @@
     background-color: #198754;
     border: none;
     border-radius: 8px;
-   
 }
-#admin_tire_size_button:hover {
+
+
+#admin_tire_size_button:hover,#admin_tire_update_size_button:hover {
 	color: #fff;
     background-color: #157347;
 
@@ -249,7 +245,7 @@
 }
 
 
-.admin-tire-reg-size-modal-button1{
+.admin-tire-reg-size-modal-button1, .admin-tire-reg-button{
 	border-radius:7px;
 	padding:6px;
 	color: #0d6efd;
@@ -261,10 +257,15 @@
     user-select: none;
     font-family: GmarketSansMedium;	
 }
-.admin-tire-reg-size-modal-button1:hover{
+.admin-tire-reg-size-modal-button1:hover, .admin-tire-reg-button:hover{
 	color: #fff;
     background-color: #0d6efd;
     border-color: #0d6efd;
+}
+
+.admin-tire-size-reg-button-div{
+	display: flex;
+	padding-left: 6px;
 }
 
 .admin-tire-reg-size-modal-button2{
@@ -288,9 +289,9 @@
 }
 
 .admin-tire-size-reg-delete{
-	height:17px;
+	height:20px;
 	width:35px;
-	margin-left:30px;
+	margin-left:34px;
 	margin-right:5px;
 	border-radius:7px;
 	font-weight: 900;
@@ -372,15 +373,27 @@
 .admin-tire-img-content{
 	border: 2px solid #6b6b6b;
 	min-height: 50px;
-	display: flex;
-    justify-content:center;
-    align-items: center;
+	text-align: center;
+	padding-top: 13px;
 }
+
+ .admin-tire-img-content img{
+	max-height: 150px;
+} 
+
 /*파일 업로드 디자인  */
 .admin-tire-fileUpload{
 	margin:10px;
 	font-family: GmarketSansMedium;
 }
+.filebox1, .filebox2{
+	display: flex;
+	justify-content: center;
+}
+.admin-tire-main-img-newInfo-reg, .admin-tire-detail-img-newInfo-reg{
+	margin-left: 5px;
+}
+
 .filebox1 input[type="file"],.filebox2 input[type="file"] {
   position: absolute;
   width: 1px;

@@ -4,18 +4,19 @@ import java.math.BigDecimal;
 
 public class ProductSelector {
 	private String search;
-	private String searchBrand;
+	private String search2;
 	private BigDecimal start;
 	private BigDecimal end;
+	
 	
 	public ProductSelector() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductSelector(String search, String searchBrand, BigDecimal start, BigDecimal end) {
+	public ProductSelector(String search, String search2, BigDecimal start, BigDecimal end) {
 		super();
 		this.search = search;
-		this.searchBrand = searchBrand;
+		this.search2 = search2;
 		this.start = start;
 		this.end = end;
 	}
@@ -27,13 +28,13 @@ public class ProductSelector {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-
-	public String getSearchBrand() {
-		return searchBrand;
+	
+	public String getSearch2() {
+		return search2;
 	}
 
-	public void setSearchBrand(String searchBrand) {
-		this.searchBrand = searchBrand;
+	public void setSearch2(String search2) {
+		this.search2 = search2;
 	}
 
 	public BigDecimal getStart() {
@@ -51,6 +52,7 @@ public class ProductSelector {
 	public void setEnd(BigDecimal end) {
 		this.end = end;
 	}
+
 	
 	
 }

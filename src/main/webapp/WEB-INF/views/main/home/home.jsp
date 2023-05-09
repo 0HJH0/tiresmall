@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <title>Insert title here</title>
+    <script
+		src="https://code.jquery.com/jquery-3.6.3.js"
+		integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+		crossorigin="anonymous">
+    </script>
   </head>
   <body>
     <div class="home_container">
@@ -18,10 +25,11 @@ pageEncoding="UTF-8"%>
         ></video>
       </div>
       <section>
-        <h1 class="home_title">
+        <div class="home_title">
           <img src="resources/web/logo4.png" style="height: 35px" />
           <span>이용 방법</span>
-        </h1>
+          <hr />
+        </div>
         <div class="home_manual">
           <div class="home_manual_menu">
             <img
@@ -60,9 +68,12 @@ pageEncoding="UTF-8"%>
         </div>
       </section>
       <section>
-        <h1 class="home_title">MD 추천 타이어</h1>
+        <div class="home_title">
+          <span>MD 추천 타이어</span>
+          <hr />
+        </div>
         <div class="home_recommend">
-          <a class="home_recommend_menu">
+          <a class="home_recommend_menu" href="product.brand.type?b=&p=1&t=sedan">
             <div class="home_shadow"></div>
             <img
               src="resources/web/main/home/sedan.jpg"
@@ -70,7 +81,7 @@ pageEncoding="UTF-8"%>
             />
             <span class="home_recommend_txt">승용차용</span>
           </a>
-          <a class="home_recommend_menu">
+          <a class="home_recommend_menu" href="product.brand.type?b=&p=1&t=suv">
             <div class="home_shadow"></div>
             <img
               src="resources/web/main/home/suv.jpg"
@@ -84,8 +95,9 @@ pageEncoding="UTF-8"%>
         <div class="home_board_box">
           <div class="home_title home_board_title">
             <h1>공지사항</h1>
-            <a href="board.notice">더 보기</a>
+            <a href="board.notice.read">더 보기</a>
           </div>
+          <!-- 
           <ul class="home_board_content">
             <li>공지사항 1</li>
             <li>공지사항 2</li>
@@ -93,12 +105,19 @@ pageEncoding="UTF-8"%>
             <li>공지사항 4</li>
             <li>공지사항 5</li>
           </ul>
+           -->
+          <ul class="home_board_content">
+            <c:forEach var="n" items="${notices }" begin="0" end="4">
+				<li><a href="board.notice.readdetail?n_no=${n.n_no}">${n.n_title }</a></li>
+			</c:forEach>
+          </ul>
         </div>
         <div class="home_board_box">
           <div class="home_title home_board_title">
             <h1>이벤트</h1>
-            <a href="board.event">더 보기</a>
+            <a href="board.event.read">더 보기</a>
           </div>
+          <!-- 
           <ul class="home_board_content">
             <li>이벤트 1</li>
             <li>이벤트 2</li>
@@ -106,12 +125,23 @@ pageEncoding="UTF-8"%>
             <li>이벤트 4</li>
             <li>이벤트 5</li>
           </ul>
+           -->
+          <ul class="home_board_content">
+			<c:forEach var="e" items="${events }" begin="0" end="4">
+				<c:if test="${e.e_popup == 1}">
+					<li><a href="board.event.readdetail?e_no=${e.e_no}">${e.e_title }</a></li>
+				</c:if>
+			</c:forEach>
+          </ul>
         </div>
       </section>
       <section class="home_store_section">
-        <h1 class="home_title">매장 안내</h1>
+        <div class="home_title">
+          <span>매장 안내</span>
+          <hr />
+        </div>
         <div class="home_store">
-          <a class="home_store_menu" href="/">
+          <a class="home_store_menu" href="store?id=1">
             <div class="home_shadow"></div>
             <img
               class="home_store_img"
@@ -119,7 +149,7 @@ pageEncoding="UTF-8"%>
             />
             <span class="home_store_txt">타이어쇼핑몰</span>
           </a>
-          <a class="home_store_menu" href="/">
+          <a class="home_store_menu" href="store?id=2">
             <div class="home_shadow"></div>
             <img
               class="home_store_img"
@@ -127,7 +157,7 @@ pageEncoding="UTF-8"%>
             />
             <span class="home_store_txt">타이어테크 죽동점</span>
           </a>
-          <a class="home_store_menu" href="/">
+          <a class="home_store_menu" href="store?id=3">
             <div class="home_shadow"></div>
             <img
               class="home_store_img"
@@ -135,7 +165,7 @@ pageEncoding="UTF-8"%>
             />
             <span class="home_store_txt">논산 타이어쇼핑몰</span>
           </a>
-          <a class="home_store_menu" href="/">
+          <a class="home_store_menu" href="store?id=4">
             <div class="home_shadow"></div>
             <img
               class="home_store_img"
@@ -143,7 +173,7 @@ pageEncoding="UTF-8"%>
             />
             <span class="home_store_txt">타이어테크 연무점</span>
           </a>
-          <a class="home_store_menu" href="/">
+          <a class="home_store_menu" href="store?id=5">
             <div class="home_shadow"></div>
             <img
               class="home_store_img"
@@ -151,9 +181,18 @@ pageEncoding="UTF-8"%>
             />
             <span class="home_store_txt">타이어테크 반월점</span>
           </a>
+          <div class="home_store_menu">
+            <img src="resources/web/main/index/brand/1.jpg">
+          </div>
         </div>
       </section>
     </div>
+		<dialog class="board_event_modal_dialog">
+    		<c:forEach var="e" items="${events }">
+				<input type="hidden" class="dialog_val" value="${e.e_popup }">
+    		</c:forEach>
+			<jsp:include page="${eventModal}"></jsp:include>
+		<dialog>
     <script src="resources/js/main/home/main_home.js"></script>
   </body>
 </html>

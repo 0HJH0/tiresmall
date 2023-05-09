@@ -24,6 +24,7 @@
 }
 
 .detail_img {
+  padding-top: 20px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -236,48 +237,108 @@
   line-height: 30px;
 }
 
-.detail_cart_dialog {
-  padding: 0;
-  width: 400px;
-  height: 300px;
-  border: none;
+.detail_cart_dialog form {
+  display: grid;
+  grid-template-columns: repeat(2, 200px);
+  grid-template-rows: 200px 100px;
+}
+
+.detail_cart_dialog h1 {
+  font-weight: 400;
 }
 
 .detail_cart_dialog_txt {
-  width: 400px;
-  height: 220px;
+  grid-column: span 2;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   font-size: 22px;
-}
-
-.detail_cart_dialog_txt h1 {
-  font-weight: 500;
-}
-
-.detail_cart_dialog form {
-  display: grid;
-  grid-template-columns: repeat(2, 200px);
-  grid-template-rows: 80px;
+  gap: 20px;
 }
 
 .detail_cart_dialog button {
   border: none;
+  border-top: 1px solid var(--red);
   font-size: 24px;
+  font-weight: 500;
 }
 
-.detail_cart_dialog button:first-child {
+.detail_cart_confirm {
   background-color: var(--red);
   color: white;
 }
 
-.detail_cart_dialog button:last-child {
-  color: var(--red);
+.detail_cart_cancel {
   background-color: white;
+  color: var(--red);
+}
+
+.detail_size_warning form {
+  display: grid;
+  grid-template-columns: 400px;
+  grid-template-rows: 200px 100px;
+}
+
+.detail_size_warning button {
+  border: none;
   border-top: 1px solid var(--red);
+  font-size: 24px;
+  font-weight: 500;
+  background-color: var(--red);
+  color: white;
+}
+
+.detail_size_selector {
+  width: 900px;
+}
+
+.detail_dialog_title {
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  font-size: 35px;
+}
+
+.detail_dialog_title button {
+  background-color: transparent;
+  border: none;
+  color: var(--red);
+  font-size: 30px;
+}
+
+.size_wrapper {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, 200px);
+  padding-bottom: 30px;
+}
+
+.tire_size {
+  padding: 5px;
+}
+
+.tire_size button {
+  border: 1px solid #aaa;
+  flex-direction: column;
+  padding: 0;
+  width: 190px;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 20px;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.tire_size button:hover {
+  background-color: #ddd;
+}
+
+.tire_size button span:last-child {
+  color: var(--red);
+  font-size: 18px;
 }
 
 .detail_standard_table {
@@ -345,4 +406,9 @@
   background-color: white;
   color: var(--red);
   font-size: 30px;
+}
+
+.detail_include_detail li {
+  display: flex;
+  flex-direction: column;
 }
