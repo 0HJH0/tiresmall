@@ -1,4 +1,4 @@
-# 아래 동 프로젝트의 원본 repo를 클론한 repo임.
+# 아래 동 프로젝트의 원본 repo를 클론한 repo임. 원본 repo 주소: https://github.com/arukendev/tiresmall.git
 
 # Tiresmall
 ![tiresmall main](https://user-images.githubusercontent.com/101840342/228464675-1fa98b12-3700-45f3-b94e-af33d478e95e.png)
